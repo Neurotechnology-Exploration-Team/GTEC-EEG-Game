@@ -1,15 +1,19 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
+    [Header("Inputs")]
+    public Vector2 movement;
+    public bool jump;
+    public bool crouch;
+
     private static InputManager instance;
 
     public static InputManager Instance
     {
         get { return instance; }
     }
-
-    private PlayerInput playerInput;
 
     private void Awake()
     {
@@ -22,37 +26,20 @@ public class InputManager : MonoBehaviour
         {
             instance = this;
         }
-
-        playerInput = new PlayerInput();
     }
 
-    private void OnEnable()
+    public void GetMovement(InputAction.CallbackContext context)
     {
-        playerInput.Enable();
+        movement =  context.ReadValue<Vector2>();
     }
 
-    private void OnDisable()
+    public void GetJump(InputAction.CallbackContext context)
     {
-        playerInput.Disable();
+        jump =  context.ReadValueAsButton();
     }
 
-    public Vector2 GetMovement()
+    public void GetCrouch(InputAction.CallbackContext context)
     {
-        return playerInput.Player.Movement.ReadValue<Vector2>();
-    }
-
-    public Vector2 GetLook()
-    {
-        return playerInput.Player.Look.ReadValue<Vector2>();
-    }
-
-    public bool GetJumpThisFrame()
-    {
-        return playerInput.Player.Jump.triggered;
-    }
-
-    public bool GetCrouchThisFrame()
-    {
-        return playerInput.Player.Crouch.triggered;
+        crouch = context.ReadValueAsButton();
     }
 }
