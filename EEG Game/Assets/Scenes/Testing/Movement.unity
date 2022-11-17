@@ -317,8 +317,8 @@ MonoBehaviour:
   m_RecenterTarget: 0
   m_VerticalAxis:
     Value: 0
-    m_SpeedMode: 0
-    m_MaxSpeed: 300
+    m_SpeedMode: 1
+    m_MaxSpeed: 0.4
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse Y
@@ -341,8 +341,8 @@ MonoBehaviour:
     m_LegacyVelocityFilterStrength: -1
   m_HorizontalAxis:
     Value: 0
-    m_SpeedMode: 0
-    m_MaxSpeed: 300
+    m_SpeedMode: 1
+    m_MaxSpeed: 0.4
     m_AccelTime: 0.1
     m_DecelTime: 0.1
     m_InputAxisName: Mouse X
@@ -521,10 +521,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f8cff5bcde971a4584413fa89cf5cc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraSensitivityX: 0.4
+  cameraSensitivityY: 0.3
   toggleCrouch: 0
   movement: {x: 0, y: 0}
   jump: 0
   crouch: 0
+  playerCamera: {fileID: 62035607}
 --- !u!4 &589018277
 Transform:
   m_ObjectHideFlags: 0

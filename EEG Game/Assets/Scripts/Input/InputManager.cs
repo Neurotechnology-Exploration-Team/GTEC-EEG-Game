@@ -1,15 +1,21 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
     [Header("Input Settings")]
+    public float cameraSensitivityX = 0.4f;
+    public float cameraSensitivityY = 0.4f;
     public bool toggleCrouch;
 
     [Header("Inputs")]
     public Vector2 movement;
     public bool jump;
     public bool crouch;
+
+    [Header("Set Up")]
+    public CinemachineVirtualCamera playerCamera;
 
     private static InputManager instance;
 
@@ -20,7 +26,7 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        // Make InputMager a Singleton
+        // Make InputManager a Singleton
         if (instance != null && instance != this)
         {
             Destroy(this.gameObject);
@@ -28,6 +34,12 @@ public class InputManager : MonoBehaviour
         else
         {
             instance = this;
+        }
+
+        if (playerCamera != null)
+        {
+            playerCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = cameraSensitivityX;
+            playerCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = cameraSensitivityY;
         }
     }
 
