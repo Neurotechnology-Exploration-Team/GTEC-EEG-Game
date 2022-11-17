@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerInput))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float playerSpeed = 2.0f;
+    [Range(0f, 20.0f)]
+    [SerializeField] private float playerSpeed = 10.0f;
+    [Range(0f, 10.0f)]
     [SerializeField] private float jumpHeight = 1.0f;
     [SerializeField] private float groundCheckRadius = 1.0f;
     [SerializeField] private float gravityValue = -9.81f;
+    [Range(0f,1.0f)]
+    [SerializeField] private float crouchSpeed = 0.3f;
+    [SerializeField] Vector3 crouchScale = new Vector3(1, 0.5f, 1);
     [Header("Set Up")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
 
     public bool grounded;
     private Vector3 playerVelocity;
+    private Vector3 playerScale;
 
     // Components
     private InputManager inputManager;
@@ -25,6 +32,9 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // Lock Player Cursor to Screen
+        playerScale = transform.localScale;
+
+        // Components
         controller = gameObject.GetComponent<CharacterController>();
         cameraTransform = Camera.main.transform;
 
@@ -32,7 +42,19 @@ public class PlayerMovement : MonoBehaviour
         inputManager = InputManager.Instance;
     }
 
-    void Update()
+    private void Update()
+    {
+        if (inputManager.crouch)
+        {
+            transform.localScale = crouchScale;
+        }
+        else if(!inputManager.crouch)
+        {
+            transform.localScale = playerScale;
+        }
+    }
+
+    private void FixedUpdate()
     {
         // Ground Check
         grounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
@@ -59,5 +81,4 @@ public class PlayerMovement : MonoBehaviour
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime);
     }
-
 }

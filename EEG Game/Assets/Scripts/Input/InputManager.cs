@@ -3,6 +3,9 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
+    [Header("Input Settings")]
+    public bool toggleCrouch;
+
     [Header("Inputs")]
     public Vector2 movement;
     public bool jump;
@@ -40,6 +43,13 @@ public class InputManager : MonoBehaviour
 
     public void GetCrouch(InputAction.CallbackContext context)
     {
-        crouch = context.ReadValueAsButton();
+        if (context.started && toggleCrouch)
+        {
+            crouch = !crouch;
+        }
+        else if(!toggleCrouch)
+        {
+            crouch = context.ReadValueAsButton();
+        }
     }
 }
