@@ -2,7 +2,7 @@
     "name": "PlayerInput",
     "maps": [
         {
-            "name": "OnFoot",
+            "name": "Player",
             "id": "dba11e1d-7564-4623-89f2-d6650fe21d83",
             "actions": [
                 {
@@ -25,7 +25,7 @@
                 },
                 {
                     "name": "Look",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "549676d2-02ab-4f34-bed4-35bdb07dd8eb",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -123,7 +123,7 @@
                 {
                     "name": "",
                     "id": "0d99ca8f-a940-4231-b1de-5a5ba2751484",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Keyboard>/c",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
