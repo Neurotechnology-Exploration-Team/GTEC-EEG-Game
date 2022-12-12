@@ -1,42 +1,42 @@
 {
-    "name": "PlayerInput",
+    "name": "PlayerControls",
     "maps": [
         {
-            "name": "Player",
-            "id": "dba11e1d-7564-4623-89f2-d6650fe21d83",
+            "name": "GroundMovement",
+            "id": "27f2c12c-8bb5-4671-834f-7af4fb7e94f1",
             "actions": [
                 {
                     "name": "Movement",
-                    "type": "Value",
-                    "id": "42000fe0-514c-4861-9906-814ef7b16cf2",
+                    "type": "PassThrough",
+                    "id": "91ab281c-b681-4d8d-9257-6a08c1c32999",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Jump",
-                    "type": "Button",
-                    "id": "91c5fa10-213d-48a9-b3a8-a956e01e1e72",
+                    "type": "PassThrough",
+                    "id": "7b5ae20c-fe5b-48e2-a9e8-5ffe19e4c72e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Look",
+                    "name": "MouseX",
                     "type": "PassThrough",
-                    "id": "549676d2-02ab-4f34-bed4-35bdb07dd8eb",
-                    "expectedControlType": "Vector2",
+                    "id": "6424e913-4770-42de-8a8d-9fb25b78529d",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
-                    "name": "Crouch",
-                    "type": "Button",
-                    "id": "1b543d25-5047-4dc4-8269-c9a13be920c8",
-                    "expectedControlType": "Button",
+                    "name": "MouseY",
+                    "type": "PassThrough",
+                    "id": "6d15303b-b3f5-4260-b7e2-d3b9ec0569d0",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -45,7 +45,7 @@
             "bindings": [
                 {
                     "name": "WASD",
-                    "id": "6249f5d3-da3e-4f08-b623-398cf512afd0",
+                    "id": "342707ad-7906-42e0-a900-5b789caa91b0",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -56,7 +56,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "a493e83e-41d5-4029-8392-9b314d4f5e97",
+                    "id": "65c2e549-e297-460c-968b-62d7a540d982",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -67,7 +67,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "edfebd1b-24b8-46c1-9858-63f59dd2f402",
+                    "id": "ca69b260-1f86-4b60-8ada-eae84ecf9082",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -78,7 +78,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "617d68e4-1b81-4bca-a352-035b1503d356",
+                    "id": "0e3919d2-1931-4197-a1e5-c0e9c1d8af03",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -89,7 +89,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "fd038038-0ff0-4897-b346-bb2af673d147",
+                    "id": "2aae56ed-ae0a-47e4-8b8c-7f9446629789",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -100,7 +100,7 @@
                 },
                 {
                     "name": "",
-                    "id": "1ce3a512-ca80-42c5-b304-8409c0fc6629",
+                    "id": "9a10461c-4526-47ab-8f72-0f263e725799",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
@@ -111,23 +111,23 @@
                 },
                 {
                     "name": "",
-                    "id": "17db0f77-30d3-420b-814d-a41fb5501eec",
-                    "path": "<Mouse>/delta",
+                    "id": "6ad4ed5c-f5e8-4611-a525-4761c749c429",
+                    "path": "<Mouse>/delta/x",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Look",
+                    "action": "MouseX",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "0d99ca8f-a940-4231-b1de-5a5ba2751484",
-                    "path": "<Keyboard>/c",
+                    "id": "f16e9bf4-f388-467a-aaa6-59f3d733992e",
+                    "path": "<Mouse>/delta/y",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Crouch",
+                    "action": "MouseY",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
