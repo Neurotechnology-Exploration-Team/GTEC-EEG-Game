@@ -5,7 +5,7 @@ using UnityEngine;
 public class MouseLook : MonoBehaviour
 {
     [SerializeField] float sensetivityX = 8f;
-    [SerializeField] float sensetivityY = 0.5f;
+    [SerializeField] float sensetivityY = 8f;
     float mouseX, mouseY;
 
 
