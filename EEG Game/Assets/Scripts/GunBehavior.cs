@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 
 public class GunBehavior : MonoBehaviour
 {
+    //Fields
     PlayerInput input;
+    public Camera fpsCam;
 
     //Properties
     public float magazine = 12f;
@@ -50,11 +52,23 @@ public class GunBehavior : MonoBehaviour
     /// </summary>
     public void Fire()
     {
-        Debug.Log("Hit!");
-        hits++;
+        if (magazine > 0)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+            {
+                hits++;
+                Debug.Log(hit.transform.name);
+            }
 
-        shots++;
-        Debug.Log("Shots fired!");
+            shots++;
+            Debug.Log("Shots fired!");
+        }
+
+        else
+        {
+            Debug.Log("Out of ammo!");
+        }
     }
 
     /// <summary>
