@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game/Levels/LastStop_Graybox.unity
     guid: ca85f1e683ebe2e4abbcede634cefaee
+  - enabled: 1
+    path: Assets/Scenes/Testing/Movement.unity
+    guid: 76b535f9d8683fe4e8cbfe9a9683edfa
   m_configObjects: {}
