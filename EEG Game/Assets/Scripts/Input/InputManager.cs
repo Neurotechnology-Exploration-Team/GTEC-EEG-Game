@@ -1,6 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class InputManager : MonoBehaviour
     public Vector2 movement;
     public bool jump;
     public bool crouch;
+    public bool interact;
 
     [Header("Set Up")]
     public CinemachineVirtualCamera playerCamera;
@@ -62,6 +64,20 @@ public class InputManager : MonoBehaviour
         else if(!toggleCrouch)
         {
             crouch = context.ReadValueAsButton();
+        }
+    }
+
+    public void GetInteraction(InputAction.CallbackContext context)
+    {
+        interact = context.ReadValueAsButton();
+    }
+
+    public void SetSensitivity(float camSensX, float camSensY)
+    {
+        if (playerCamera != null)
+        {
+            playerCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = camSensX;
+            playerCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = camSensY;
         }
     }
 }

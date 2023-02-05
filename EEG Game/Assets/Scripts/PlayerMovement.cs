@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Set Up")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+    public bool toggleMovement;
 
     public bool grounded;
     private Vector3 playerVelocity;
@@ -40,10 +41,17 @@ public class PlayerMovement : MonoBehaviour
 
         // Singletons
         inputManager = InputManager.Instance;
+
+        toggleMovement = true;
     }
 
     private void Update()
     {
+        if (!toggleMovement)
+        {
+            return;
+        }
+
         if (inputManager.crouch)
         {
             transform.localScale = crouchScale;
@@ -56,6 +64,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!toggleMovement)
+        {
+            return;
+        }
+
         // Ground Check
         grounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
         if (grounded)
