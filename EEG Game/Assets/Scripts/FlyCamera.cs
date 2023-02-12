@@ -94,4 +94,9 @@ public class FlyCamera : MonoBehaviour
         }
         return p_Velocity;
     }
+    public void SetPosition(float x, float y, float z, float rx, float ry, float rz)
+    {
+        transform.position = new Vector3(x, y, z);
+        transform.eulerAngles = new Vector3(rx, ry, rz);
+    } 
 }
