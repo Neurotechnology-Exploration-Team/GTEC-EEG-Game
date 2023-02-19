@@ -187,7 +187,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 62035606}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.52645, y: -1.2941084, z: -0.30928722}
+  m_LocalPosition: {x: -3.07645, y: -1.2941084, z: -0.30928722}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -509,7 +509,7 @@ MonoBehaviour:
   timeBetweenAttacks: 2
   alreadyAttacked: 0
   projectile: {fileID: 8081361015973551155, guid: bc74863e19a09d14589caf33df418490, type: 3}
-  sightRange: 10
+  sightRange: 12.36
   attackRange: 5
   playerInSightRange: 0
   playerInAttackRange: 0
@@ -544,7 +544,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 353020700}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -1709,7 +1709,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1635832936}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.59, z: 0}
+  m_LocalPosition: {x: 2.45, y: 1.59, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2064,7 +2064,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144658338}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.52645, y: -1.2941084, z: -0.30928722}
+  m_LocalPosition: {x: -3.07645, y: -1.2941084, z: -0.30928722}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
