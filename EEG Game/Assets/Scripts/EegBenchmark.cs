@@ -21,6 +21,11 @@ public class EegBenchmark : MonoBehaviour
 
     }
 
+    public void teleportPlayer(float x, float y, float z, float ax, float ay, float az)
+    {
+
+    }
+
     public void createCube(float x, float y, float z, float L)
     {
         GameObject aCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -58,7 +63,8 @@ public class EegBenchmark : MonoBehaviour
             }
 
         }
-
     }
+
+
 }
 
