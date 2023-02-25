@@ -1,5 +1,4 @@
 using System.Collections;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -8,11 +7,11 @@ using System;
 
 public class EegBenchmark : MonoBehaviour
 {
-    private Camera m_MainCamera;
+    private Camera mMainCamera;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        m_MainCamera = Camera.main;
+        mMainCamera = Camera.main;
         // StartCoroutine(cubeAngleTest(-5.125f, 5));
         /*createCube(0, 0, 0, 10);
         createCube(0, 0, 1, 5);
@@ -24,7 +23,7 @@ public class EegBenchmark : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
 
     }
@@ -34,13 +33,13 @@ public class EegBenchmark : MonoBehaviour
      *
      * ax, ay, and az are all in degrees, as if you were entering them in the Unity editor
      */
-    public void teleportPlayer(float x, float y, float z, float ax, float ay, float az)
+    private void teleportPlayer(float x, float y, float z, float ax, float ay, float az)
     {
-        m_MainCamera.transform.position = new Vector3(x, y, z);
-        m_MainCamera.transform.eulerAngles = new Vector3(ax, ay, az);
+        mMainCamera.transform.position = new Vector3(x, y, z);
+        mMainCamera.transform.eulerAngles = new Vector3(ax, ay, az);
     }
     
-    public void createCube(float x, float y, float z, float L)
+    private void createCube(float x, float y, float z, float L)
     {
         GameObject aCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         aCube.transform.position = new Vector3(x, y, z);
@@ -48,7 +47,7 @@ public class EegBenchmark : MonoBehaviour
         aCube.name = "TestingCube";
     }
 
-    public void destroyCube(float x, float y, float z)
+    private void destroyCube(float x, float y, float z)
     {
         GameObject[] gameObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];
 
@@ -64,7 +63,7 @@ public class EegBenchmark : MonoBehaviour
 
     }
 
-    public void destroyAllCubes()
+    private void destroyAllCubes()
     {
         GameObject[] gameObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];
 
@@ -78,7 +77,7 @@ public class EegBenchmark : MonoBehaviour
 
         }
     }
-    public IEnumerator cubeAngleTest(float distance, float seconds)
+    private IEnumerator cubeAngleTest(float distance, float seconds)
     {
         int angle = 0;
         float xValue = 0;
@@ -125,7 +124,7 @@ public class EegBenchmark : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
     }
 
-    public IEnumerator distanceTest(float time_change)
+    private IEnumerator distanceTest(float time_change)
     {
         System.Random rng = new System.Random();
 
