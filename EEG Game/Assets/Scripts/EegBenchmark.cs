@@ -3,6 +3,8 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
+using static BCIManager;
+
 public class EegBenchmark : MonoBehaviour
 {
     private Camera mMainCamera;
@@ -11,10 +13,13 @@ public class EegBenchmark : MonoBehaviour
     public Material darkMaterial;
     public Material flashMaterial;
 
-    private List<GameObject> cubes;
+    private List<GameObject> cubes = new();
 
     public ERPFlashController3D bciManager3D;
-    
+
+    private uint _selectedClass = 0;
+    private bool _update = false;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -25,7 +30,13 @@ public class EegBenchmark : MonoBehaviour
             return;
         }
         mMainCameraTransform = mMainCamera.transform;
-        
+
+        BCIManager.Instance.ClassSelectionAvailable += OnClassSelectionAvailable;
+
+        TeleportPlayer(0, 0, -20, 0, 0, 0);
+        // CreateCube(0, 0, 0, 10);
+        // bciManager3D.TrainingObject = bciManager3D.ApplicationObjects[0];
+
         // StartCoroutine(AngleTest(-5.125f, 5));
         /*createCube(0, 0, 0, 10);
         createCube(0, 0, 1, 5);
@@ -41,7 +52,26 @@ public class EegBenchmark : MonoBehaviour
     {
 
     }
-    
+
+    private void OnClassSelectionAvailable(object sender, EventArgs e)
+    {
+        ClassSelectionAvailableEventArgs ea = (ClassSelectionAvailableEventArgs)e;
+        _selectedClass = ea.Class;
+        _update = true;
+        Debug.Log(string.Format("Selected class: {0}", ea.Class));
+    }
+
+    private void FixERPList()
+    {
+        // bciManager3D.NumberOfClasses = (uint)bciManager3D.ApplicationObjects.Count;
+        for (var i = 0; i < bciManager3D.ApplicationObjects.Count; i++)
+        {
+            var erpFlashObject3D = bciManager3D.ApplicationObjects[i];
+            erpFlashObject3D.ClassId = i + 1;
+            bciManager3D.ApplicationObjects[i] = erpFlashObject3D;
+        }
+    }
+
     /**
      * Teleports the player to given coordinates.
      *
@@ -53,7 +83,7 @@ public class EegBenchmark : MonoBehaviour
         mMainCameraTransform.eulerAngles = new Vector3(ax, ay, az);
     }
 
-    private void CreateCube(float x, float y, float z, float l)
+    private GameObject CreateCube(float x, float y, float z, float l)
     {
         var aCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         aCube.transform.position = new Vector3(x, y, z);
@@ -65,12 +95,14 @@ public class EegBenchmark : MonoBehaviour
             GameObject = aCube,
             FlashMaterial = flashMaterial,
             DarkMaterial = darkMaterial,
-            ClassId = bciManager3D.ApplicationObjects[^1].ClassId + 1
+            ClassId = 0
         };
 
         cubes.Add(aCube);
         bciManager3D.ApplicationObjects.Add(erpFlashObject3D);
-        bciManager3D.NumberOfClasses++;
+        FixERPList();
+
+        return aCube;
     }
 
     private void DestroyCube(float x, float y, float z)
@@ -93,13 +125,7 @@ public class EegBenchmark : MonoBehaviour
             bciManager3D.ApplicationObjects.RemoveAt(cube);
         }
 
-        bciManager3D.NumberOfClasses = (uint) bciManager3D.ApplicationObjects.Count;
-        for (var i = 0; i < bciManager3D.NumberOfClasses; i++)
-        {
-            var erpFlashObject3D = bciManager3D.ApplicationObjects[i];
-            erpFlashObject3D.ClassId = i;
-            bciManager3D.ApplicationObjects[i] = erpFlashObject3D;
-        }
+        FixERPList();
     }
 
     private void DestroyAllCubes()
@@ -110,7 +136,7 @@ public class EegBenchmark : MonoBehaviour
         }
 
         bciManager3D.ApplicationObjects.RemoveRange(0, bciManager3D.ApplicationObjects.Count);
-        bciManager3D.NumberOfClasses = 0;
+        FixERPList();
     }
     
     private IEnumerator AngleTest(float distance, float seconds)
