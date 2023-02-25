@@ -30,25 +30,25 @@ public class EegBenchmark : MonoBehaviour
      *
      * ax, ay, and az are all in degrees, as if you were entering them in the Unity editor
      */
-    private void teleportPlayer(float x, float y, float z, float ax, float ay, float az)
+    private void TeleportPlayer(float x, float y, float z, float ax, float ay, float az)
     {
         mMainCamera.transform.position = new Vector3(x, y, z);
         mMainCamera.transform.eulerAngles = new Vector3(ax, ay, az);
     }
     
-    private void createCube(float x, float y, float z, float L)
+    private void CreateCube(float x, float y, float z, float L)
     {
-        GameObject aCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        var aCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         aCube.transform.position = new Vector3(x, y, z);
         aCube.transform.localScale = new Vector3(L, L, L);
         aCube.name = "TestingCube";
     }
 
-    private void destroyCube(float x, float y, float z)
+    private void DestroyCube(float x, float y, float z)
     {
-        GameObject[] gameObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];
+        var gameObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];
 
-        foreach (GameObject gameObject in gameObjects)
+        foreach (var gameObject in gameObjects)
         {
 
             if (gameObject.name == "TestingCube" && gameObject.transform.position == new Vector3(x, y, z))
@@ -60,11 +60,11 @@ public class EegBenchmark : MonoBehaviour
 
     }
 
-    private void destroyAllCubes()
+    private void DestroyAllCubes()
     {
-        GameObject[] gameObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];
+        var gameObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];
 
-        foreach (GameObject gameObject in gameObjects)
+        foreach (var gameObject in gameObjects)
         {
 
             if (gameObject.name == "TestingCube")
@@ -74,13 +74,13 @@ public class EegBenchmark : MonoBehaviour
 
         }
     }
-    private IEnumerator cubeAngleTest(float distance, float seconds)
+    private IEnumerator CubeAngleTest(float distance, float seconds)
     {
-        int angle = 0;
-        float xValue = 0;
-        float zValue = 0;
+        var angle = 0;
+        var xValue = 0f;
+        var zValue = 0f;
 
-        createCube(0, 0, 0, 1);
+        CreateCube(0, 0, 0, 1);
         /**Create a cube of size 1 centered at the origin, where only one side is flashing
         Teleport the player to a predetermined distance away, facing the flashing side of the cube head-on
         Repeat the following:
@@ -95,14 +95,14 @@ public class EegBenchmark : MonoBehaviour
             {
                 xValue = Mathf.Cos((float)((Math.PI / 180) * angle)) * distance;
                 zValue = Mathf.Sin((float)((Math.PI / 180) * angle)) * distance;
-                teleportPlayer(xValue, 0, zValue, 0, -angle + 90, 0);
-                DateTime timeOfTeleport = DateTime.UtcNow;
-                long timeOfTeleportMili = new DateTimeOffset(timeOfTeleport).ToUnixTimeMilliseconds();
+                TeleportPlayer(xValue, 0, zValue, 0, -angle + 90, 0);
+                var timeOfTeleport = DateTime.UtcNow;
+                var timeOfTeleportMili = new DateTimeOffset(timeOfTeleport).ToUnixTimeMilliseconds();
                 angle += 5;
                 while (true)
                 {
-                    DateTime current = DateTime.UtcNow;
-                    long currentTimeSeconds = new DateTimeOffset(current).ToUnixTimeMilliseconds();
+                    var current = DateTime.UtcNow;
+                    var currentTimeSeconds = new DateTimeOffset(current).ToUnixTimeMilliseconds();
                     if((currentTimeSeconds - timeOfTeleportMili) > seconds * 1000)
                     {
                         break;
@@ -121,24 +121,24 @@ public class EegBenchmark : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
     }
 
-    private IEnumerator distanceTest(float time_change)
+    private IEnumerator DistanceTest(float time_change)
     {
         System.Random rng = new System.Random();
 
-        createCube(0, 0, 0, 1);
+        CreateCube(0, 0, 0, 1);
         var dist = 1;
-        teleportPlayer(dist, 0, 0, 0, 270, 0);
-        int certainty = rng.Next(10);
+        TeleportPlayer(dist, 0, 0, 0, 270, 0);
+        var certainty = rng.Next(10);
         while (true)
         {
-            DateTime start = DateTime.UtcNow;
-            long startTimeMilliseconds = new DateTimeOffset(start).ToUnixTimeMilliseconds();
-            teleportPlayer(dist*=2, 0, 0, 0, 270, 0);
+            var start = DateTime.UtcNow;
+            var startTimeMilliseconds = new DateTimeOffset(start).ToUnixTimeMilliseconds();
+            TeleportPlayer(dist*=2, 0, 0, 0, 270, 0);
             while (true)
             {
                 UnityEngine.Debug.LogFormat("{0}, {1}", dist, certainty);
-                DateTime now = DateTime.UtcNow;
-                long unixTimeMilliseconds = new DateTimeOffset(now).ToUnixTimeMilliseconds();
+                var now = DateTime.UtcNow;
+                var unixTimeMilliseconds = new DateTimeOffset(now).ToUnixTimeMilliseconds();
                 yield return new WaitForSeconds(.1f);
                 if (unixTimeMilliseconds - startTimeMilliseconds > time_change)
                 {
