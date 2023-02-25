@@ -31,7 +31,7 @@ public class EegBenchmark : MonoBehaviour
         }
         mMainCameraTransform = mMainCamera.transform;
         
-        TeleportPlayer(0, 0, -20, 0, 0, 0);
+        // TeleportPlayer(0, 0, -20, 0, 0, 0);
         // CreateCube(0, 0, 0, 10);
         // bciManager3D.TrainingObject = bciManager3D.ApplicationObjects[0];
 
@@ -95,7 +95,7 @@ public class EegBenchmark : MonoBehaviour
             GameObject = aCube,
             FlashMaterial = flashMaterial,
             DarkMaterial = darkMaterial,
-            ClassId = 0
+            ClassId = 1
         };
 
         cubes.Add(aCube);
@@ -135,17 +135,17 @@ public class EegBenchmark : MonoBehaviour
             Destroy(cubeGameObject, 10);
         }
 
-        bciManager3D.ApplicationObjects.RemoveRange(0, bciManager3D.ApplicationObjects.Count);
+        bciManager3D.ApplicationObjects.Clear();
         FixERPList();
     }
     
     private IEnumerator AngleTest(float distance, float seconds)
     {
-        DestroyAllCubes();
+        // DestroyAllCubes();
         
         var angle = 0;
 
-        CreateCube(0, 0, 0, 1);
+        // CreateCube(0, 0, 0, 1);
         while (true)
         {
             if (angle > 90) break;
@@ -178,11 +178,11 @@ public class EegBenchmark : MonoBehaviour
 
     private IEnumerator DistanceTest(int maxDistance, float timeChange)
     {
-        DestroyAllCubes();
+        // DestroyAllCubes();
         
         var rng = new System.Random();
 
-        CreateCube(0, 0, 0, 1);
+        // CreateCube(0, 0, 0, 1);
         var dist = 1;
         TeleportPlayer(dist, 0, 0, 0, 270, 0);
         var certainty = rng.Next(10);
