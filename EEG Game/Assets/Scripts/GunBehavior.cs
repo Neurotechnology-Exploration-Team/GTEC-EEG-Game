@@ -8,6 +8,9 @@ public class GunBehavior : MonoBehaviour
     //Fields
     PlayerInput input;
     public Camera fpsCam;
+    [SerializeField] GameObject projectile;
+    [SerializeField] Transform projectileSpawn;
+
 
     //Properties
     public float magazine = 12f;
@@ -54,12 +57,8 @@ public class GunBehavior : MonoBehaviour
     {
         if (magazine > 0)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
-            {
-                hits++;
-                Debug.Log(hit.transform.name);
-            }
+            GameObject bullet = Instantiate(projectile, projectileSpawn.position, this.transform.rotation);
+            bullet.tag = "Player";
 
             shots++;
             Debug.Log("Shots fired!");

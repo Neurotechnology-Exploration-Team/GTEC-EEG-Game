@@ -22,6 +22,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float timeBetweenAttacks;
     [SerializeField] private bool alreadyAttacked;
     [SerializeField] private GameObject projectile;
+    [SerializeField] private Transform projectileSpawn;
 
     // States
     [SerializeField] private float sightRange, attackRange;
@@ -96,13 +97,13 @@ public class EnemyAI : MonoBehaviour
     {
         // Stop Enemy movement and Look at Player
         agent.SetDestination(transform.position);
-        transform.LookAt(player);
+        //transform.LookAt(player);
 
         if (!alreadyAttacked)
         {
             // Shoot at Player
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
+            GameObject bullet = Instantiate(projectile, projectileSpawn.position, this.transform.rotation);
+            bullet.tag = "Enemy";
 
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
