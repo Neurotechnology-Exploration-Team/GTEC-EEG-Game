@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public class EegBenchmark : MonoBehaviour
 {
@@ -80,6 +79,8 @@ public class EegBenchmark : MonoBehaviour
     
     private IEnumerator AngleTest(float distance, float seconds)
     {
+        DestroyAllCubes();
+        
         var angle = 0;
 
         CreateCube(0, 0, 0, 1);
@@ -113,22 +114,24 @@ public class EegBenchmark : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
     }
 
-    private IEnumerator DistanceTest(float timeChange)
+    private IEnumerator DistanceTest(int maxDistance, float timeChange)
     {
+        DestroyAllCubes();
+        
         var rng = new System.Random();
 
         CreateCube(0, 0, 0, 1);
         var dist = 1;
         TeleportPlayer(dist, 0, 0, 0, 270, 0);
         var certainty = rng.Next(10);
-        while (true)
+        while (dist < maxDistance)
         {
             var start = DateTime.UtcNow;
             var startTimeMilliseconds = new DateTimeOffset(start).ToUnixTimeMilliseconds();
             TeleportPlayer(dist*=2, 0, 0, 0, 270, 0);
             while (true)
             {
-                UnityEngine.Debug.LogFormat("{0}, {1}", dist, certainty);
+                Debug.LogFormat("{0}, {1}", dist, certainty);
                 var now = DateTime.UtcNow;
                 var unixTimeMilliseconds = new DateTimeOffset(now).ToUnixTimeMilliseconds();
                 yield return new WaitForSeconds(.1f);
