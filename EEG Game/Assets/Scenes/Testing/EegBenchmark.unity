@@ -152,6 +152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6163dd5d06396418503836abd1da4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  darkMaterial: {fileID: 2100000, guid: ed937cb936db6754295aa2eb8a15894c, type: 2}
+  flashMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
+  bciManager3D: {fileID: 1013820138}
 --- !u!4 &460332941
 Transform:
   m_ObjectHideFlags: 0
@@ -415,3 +418,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
+--- !u!114 &1013820138 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
+  m_PrefabInstance: {fileID: 1013820137}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1766628032, guid: a97dd83cced235140b361b1a59f19c0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

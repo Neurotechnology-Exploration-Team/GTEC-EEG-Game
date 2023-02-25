@@ -8,7 +8,12 @@ public class EegBenchmark : MonoBehaviour
     private Camera mMainCamera;
     private Transform mMainCameraTransform;
 
+    public Material darkMaterial;
+    public Material flashMaterial;
+
     private List<GameObject> cubes;
+
+    public ERPFlashController3D bciManager3D;
     
     // Start is called before the first frame update
     private void Start()
@@ -20,6 +25,7 @@ public class EegBenchmark : MonoBehaviour
             return;
         }
         mMainCameraTransform = mMainCamera.transform;
+        
         // StartCoroutine(AngleTest(-5.125f, 5));
         /*createCube(0, 0, 0, 10);
         createCube(0, 0, 1, 5);
@@ -54,19 +60,46 @@ public class EegBenchmark : MonoBehaviour
         aCube.transform.localScale = new Vector3(l, l, l);
         aCube.name = "TestingCube";
 
+        var erpFlashObject3D = new ERPFlashObject3D
+        {
+            GameObject = aCube,
+            FlashMaterial = flashMaterial,
+            DarkMaterial = darkMaterial,
+            ClassId = bciManager3D.ApplicationObjects[^1].ClassId + 1
+        };
+
         cubes.Add(aCube);
+        bciManager3D.ApplicationObjects.Add(erpFlashObject3D);
+        bciManager3D.NumberOfClasses++;
     }
 
     private void DestroyCube(float x, float y, float z)
     {
-        foreach (var cubeGameObject in cubes)
+        var cubesToDestroy = new List<int>();
+        
+        for (int cube = 0; cube < cubes.Count; cube++)
         {
-            if (cubeGameObject.transform.position == new Vector3(x, y, z))
+            if (cubes[cube].transform.position == new Vector3(x, y, z))
             {
-                Destroy(cubeGameObject, 5);
+                cubesToDestroy.Add(cube);
+                Destroy(cubes[cube], 5);
             }
         }
 
+        foreach (var cube in cubesToDestroy)
+        {
+            Destroy(cubes[cube], 5);
+            cubes.RemoveAt(cube);
+            bciManager3D.ApplicationObjects.RemoveAt(cube);
+        }
+
+        bciManager3D.NumberOfClasses = (uint) bciManager3D.ApplicationObjects.Count;
+        for (var i = 0; i < bciManager3D.NumberOfClasses; i++)
+        {
+            var erpFlashObject3D = bciManager3D.ApplicationObjects[i];
+            erpFlashObject3D.ClassId = i;
+            bciManager3D.ApplicationObjects[i] = erpFlashObject3D;
+        }
     }
 
     private void DestroyAllCubes()
@@ -75,6 +108,9 @@ public class EegBenchmark : MonoBehaviour
         {
             Destroy(cubeGameObject, 10);
         }
+
+        bciManager3D.ApplicationObjects.RemoveRange(0, bciManager3D.ApplicationObjects.Count);
+        bciManager3D.NumberOfClasses = 0;
     }
     
     private IEnumerator AngleTest(float distance, float seconds)
