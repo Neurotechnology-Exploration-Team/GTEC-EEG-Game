@@ -218,7 +218,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &460332939
 GameObject:
@@ -244,14 +244,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460332939}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa6163dd5d06396418503836abd1da4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  darkMaterial: {fileID: 2100000, guid: ed937cb936db6754295aa2eb8a15894c, type: 2}
-  flashMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
-  bciManager3D: {fileID: 1013820138}
+  darkMaterial: {fileID: 2100000, guid: 423d24a36508cc247a122e5d2da8901f, type: 2}
+  flashMaterial: {fileID: 2100000, guid: e32c0ee464c593149955f72c846e58a9, type: 2}
+  bciManager3D: {fileID: 0}
 --- !u!4 &460332941
 Transform:
   m_ObjectHideFlags: 0
@@ -458,7 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d6b80f2b5fde546b041665902616bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1013820137
+--- !u!1001 &1450546224
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -467,7 +467,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3085649223867200672, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3085649223867200672, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
       propertyPath: m_LocalPosition.x
@@ -510,10 +510,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
-      propertyPath: NumberOfClasses
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
       propertyPath: TrainingObject.ClassId
       value: 1
       objectReference: {fileID: 0}
@@ -524,45 +520,14 @@ PrefabInstance:
     - target: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
       propertyPath: TrainingObject.DarkMaterial
       value: 
-      objectReference: {fileID: 2100000, guid: ed937cb936db6754295aa2eb8a15894c, type: 2}
+      objectReference: {fileID: 2100000, guid: e32c0ee464c593149955f72c846e58a9, type: 2}
     - target: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
       propertyPath: TrainingObject.FlashMaterial
       value: 
-      objectReference: {fileID: 4691474732290120475, guid: cebaffc332a21c245b5b0afe66f4e6cb, type: 2}
-    - target: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
-      propertyPath: ApplicationObjects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
-      propertyPath: ApplicationObjects.Array.data[0].ClassId
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
-      propertyPath: ApplicationObjects.Array.data[0].GameObject
-      value: 
-      objectReference: {fileID: 206334523}
-    - target: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
-      propertyPath: ApplicationObjects.Array.data[0].DarkMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: ed937cb936db6754295aa2eb8a15894c, type: 2}
-    - target: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
-      propertyPath: ApplicationObjects.Array.data[0].FlashMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: acfa40c712cbb06459ad5d77e6565f15, type: 2}
+      objectReference: {fileID: 2100000, guid: 423d24a36508cc247a122e5d2da8901f, type: 2}
     - target: {fileID: 8379508971946879991, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
       propertyPath: m_Name
       value: bciManager3D
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
---- !u!114 &1013820138 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
-  m_PrefabInstance: {fileID: 1013820137}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1766628032, guid: a97dd83cced235140b361b1a59f19c0e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

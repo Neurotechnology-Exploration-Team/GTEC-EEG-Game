@@ -30,12 +30,12 @@ public class EegBenchmark : MonoBehaviour
             return;
         }
         mMainCameraTransform = mMainCamera.transform;
-
-        BCIManager.Instance.ClassSelectionAvailable += OnClassSelectionAvailable;
-
+        
         TeleportPlayer(0, 0, -20, 0, 0, 0);
         // CreateCube(0, 0, 0, 10);
         // bciManager3D.TrainingObject = bciManager3D.ApplicationObjects[0];
+
+        // BCIManager.Instance.ClassSelectionAvailable += OnClassSelectionAvailable;
 
         // StartCoroutine(AngleTest(-5.125f, 5));
         /*createCube(0, 0, 0, 10);
