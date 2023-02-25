@@ -16,7 +16,7 @@ public class PauseMenu : MonoBehaviour
         Keyboard keys = Keyboard.current;
         
         //Sees if escape is being pressed
-        if (keys.tabKey.wasPressedThisFrame)
+        if (keys.escapeKey.wasPressedThisFrame)
         {
             //If game is already paused, resume game
             if (isPaused)
