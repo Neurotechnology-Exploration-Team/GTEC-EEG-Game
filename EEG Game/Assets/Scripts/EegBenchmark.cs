@@ -1,11 +1,15 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class EegBenchmark : MonoBehaviour
 {
     private Camera mMainCamera;
     private Transform mMainCameraTransform;
+
+    private List<GameObject> cubes;
     
     // Start is called before the first frame update
     private void Start()
@@ -17,14 +21,14 @@ public class EegBenchmark : MonoBehaviour
             return;
         }
         mMainCameraTransform = mMainCamera.transform;
-        // StartCoroutine(cubeAngleTest(-5.125f, 5));
+        // StartCoroutine(AngleTest(-5.125f, 5));
         /*createCube(0, 0, 0, 10);
         createCube(0, 0, 1, 5);
         createCube(0, 0, 0, 1);
         createCube(0, 0, 10, 5);
         destroyCube(0, 0, 0);
         destroyAllCubes();*/
-        // StartCoroutine(distanceTest(3000));
+        // StartCoroutine(DistanceTest(3000));
     }
 
     // Update is called once per frame
@@ -50,19 +54,15 @@ public class EegBenchmark : MonoBehaviour
         aCube.transform.position = new Vector3(x, y, z);
         aCube.transform.localScale = new Vector3(l, l, l);
         aCube.name = "TestingCube";
+
+        cubes.Add(aCube);
     }
 
     private void DestroyCube(float x, float y, float z)
     {
-        if (FindObjectsOfType(typeof(GameObject)) is not GameObject[] gameObjects || gameObjects.Length == 0)
+        foreach (var cubeGameObject in cubes)
         {
-            return;
-        }
-
-        foreach (var cubeGameObject in gameObjects)
-        {
-            if (cubeGameObject.name == "TestingCube" 
-                && cubeGameObject.transform.position == new Vector3(x, y, z))
+            if (cubeGameObject.transform.position == new Vector3(x, y, z))
             {
                 Destroy(cubeGameObject, 5);
             }
@@ -72,20 +72,13 @@ public class EegBenchmark : MonoBehaviour
 
     private void DestroyAllCubes()
     {
-        if (FindObjectsOfType(typeof(GameObject)) is not GameObject[] gameObjects || gameObjects.Length == 0)
+        foreach (var cubeGameObject in cubes) 
         {
-            return;
-        }
-
-        foreach (var cubeGameObject in gameObjects)
-        {
-            if (cubeGameObject.name == "TestingCube")
-            {
-                Destroy(cubeGameObject, 10);
-            }
+            Destroy(cubeGameObject, 10);
         }
     }
-    private IEnumerator CubeAngleTest(float distance, float seconds)
+    
+    private IEnumerator AngleTest(float distance, float seconds)
     {
         var angle = 0;
 
