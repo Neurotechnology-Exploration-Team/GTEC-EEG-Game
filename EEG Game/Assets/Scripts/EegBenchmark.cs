@@ -20,6 +20,15 @@ public class EegBenchmark : MonoBehaviour
     private uint _selectedClass = 0;
     private bool _update = false;
 
+    public enum TestType
+    {
+        Angle,
+        Distance
+    }
+
+    public TestType testToRun;
+    public bool runTest = false;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -50,7 +59,19 @@ public class EegBenchmark : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
+        if (runTest)
+        {
+            switch (testToRun)
+            {
+                case TestType.Angle:
+                    StartCoroutine(AngleTest(-5.125f, 5));
+                    break;
+                case TestType.Distance:
+                    StartCoroutine(DistanceTest(500, 3000));
+                    break;
+            }
+            runTest = false;
+        }
     }
 
     private void OnClassSelectionAvailable(object sender, EventArgs e)
