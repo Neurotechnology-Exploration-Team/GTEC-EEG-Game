@@ -43,12 +43,12 @@ public class EegBenchmark : MonoBehaviour
         mMainCameraTransform.position = new Vector3(x, y, z);
         mMainCameraTransform.eulerAngles = new Vector3(ax, ay, az);
     }
-    
-    private void CreateCube(float x, float y, float z, float L)
+
+    private void CreateCube(float x, float y, float z, float l)
     {
         var aCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
         aCube.transform.position = new Vector3(x, y, z);
-        aCube.transform.localScale = new Vector3(L, L, L);
+        aCube.transform.localScale = new Vector3(l, l, l);
         aCube.name = "TestingCube";
     }
 
@@ -88,53 +88,41 @@ public class EegBenchmark : MonoBehaviour
     private IEnumerator CubeAngleTest(float distance, float seconds)
     {
         var angle = 0;
-        var xValue = 0f;
-        var zValue = 0f;
 
         CreateCube(0, 0, 0, 1);
-        /**Create a cube of size 1 centered at the origin, where only one side is flashing
-        Teleport the player to a predetermined distance away, facing the flashing side of the cube head-on
-        Repeat the following:
-            Until a predetermined amount of time has passed, print the angle (0 at the start), time since teleport, and focus certainty separated by commas
-            If the certainty by the end of the time is less than 0.5, exit loop
-            Change the angle by 5 degrees
-            Teleport the player to the same distance from the cube, but off at the new angle so that they are no longer head-on and become increasingly angled
-         */
-        while (1 <= seconds)
+        while (true)
         {
-            if(angle <= 90)
+            if (angle > 90) break;
+            
+            var xValue = Mathf.Cos((float)((Math.PI / 180) * angle)) * distance;
+            var zValue = Mathf.Sin((float)((Math.PI / 180) * angle)) * distance;
+            
+            TeleportPlayer(xValue, 0, zValue, 0, -angle + 90, 0);
+            var timeOfTeleport = DateTime.UtcNow;
+            var timeOfTeleportMili = new DateTimeOffset(timeOfTeleport).ToUnixTimeMilliseconds();
+            
+            angle += 5;
+            
+            while (true)
             {
-                xValue = Mathf.Cos((float)((Math.PI / 180) * angle)) * distance;
-                zValue = Mathf.Sin((float)((Math.PI / 180) * angle)) * distance;
-                TeleportPlayer(xValue, 0, zValue, 0, -angle + 90, 0);
-                var timeOfTeleport = DateTime.UtcNow;
-                var timeOfTeleportMili = new DateTimeOffset(timeOfTeleport).ToUnixTimeMilliseconds();
-                angle += 5;
-                while (true)
+                var current = DateTime.UtcNow;
+                var currentTimeSeconds = new DateTimeOffset(current).ToUnixTimeMilliseconds();
+                if (currentTimeSeconds - timeOfTeleportMili > seconds * 1000)
                 {
-                    var current = DateTime.UtcNow;
-                    var currentTimeSeconds = new DateTimeOffset(current).ToUnixTimeMilliseconds();
-                    if((currentTimeSeconds - timeOfTeleportMili) > seconds * 1000)
-                    {
-                        break;
-                    }
-                    yield return new WaitForSeconds(0.1f);
-                    Debug.Log(angle +", " + (currentTimeSeconds - timeOfTeleportMili) + ", " + 1);
+                    break;
                 }
-                
-            }
-            else
-            {
-                break;
+
+                yield return new WaitForSeconds(0.1f);
+                Debug.Log(angle + ", " + (currentTimeSeconds - timeOfTeleportMili) + ", " + 1);
             }
         }
 
         yield return new WaitForSeconds(0.1f);
     }
 
-    private IEnumerator DistanceTest(float time_change)
+    private IEnumerator DistanceTest(float timeChange)
     {
-        System.Random rng = new System.Random();
+        var rng = new System.Random();
 
         CreateCube(0, 0, 0, 1);
         var dist = 1;
@@ -151,7 +139,7 @@ public class EegBenchmark : MonoBehaviour
                 var now = DateTime.UtcNow;
                 var unixTimeMilliseconds = new DateTimeOffset(now).ToUnixTimeMilliseconds();
                 yield return new WaitForSeconds(.1f);
-                if (unixTimeMilliseconds - startTimeMilliseconds > time_change)
+                if (unixTimeMilliseconds - startTimeMilliseconds > timeChange)
                 {
                     break;
                 }
