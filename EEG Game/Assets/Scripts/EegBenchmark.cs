@@ -5,10 +5,18 @@ using System;
 public class EegBenchmark : MonoBehaviour
 {
     private Camera mMainCamera;
+    private Transform mMainCameraTransform;
+    
     // Start is called before the first frame update
     private void Start()
     {
         mMainCamera = Camera.main;
+        if (!mMainCamera)
+        {
+            Debug.LogError("No object with name 'Main Camera' found. Aborting tests.");
+            return;
+        }
+        mMainCameraTransform = mMainCamera.transform;
         // StartCoroutine(cubeAngleTest(-5.125f, 5));
         /*createCube(0, 0, 0, 10);
         createCube(0, 0, 1, 5);
@@ -32,8 +40,8 @@ public class EegBenchmark : MonoBehaviour
      */
     private void TeleportPlayer(float x, float y, float z, float ax, float ay, float az)
     {
-        mMainCamera.transform.position = new Vector3(x, y, z);
-        mMainCamera.transform.eulerAngles = new Vector3(ax, ay, az);
+        mMainCameraTransform.position = new Vector3(x, y, z);
+        mMainCameraTransform.eulerAngles = new Vector3(ax, ay, az);
     }
     
     private void CreateCube(float x, float y, float z, float L)
@@ -46,32 +54,35 @@ public class EegBenchmark : MonoBehaviour
 
     private void DestroyCube(float x, float y, float z)
     {
-        var gameObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];
-
-        foreach (var gameObject in gameObjects)
+        if (FindObjectsOfType(typeof(GameObject)) is not GameObject[] gameObjects || gameObjects.Length == 0)
         {
+            return;
+        }
 
-            if (gameObject.name == "TestingCube" && gameObject.transform.position == new Vector3(x, y, z))
+        foreach (var cubeGameObject in gameObjects)
+        {
+            if (cubeGameObject.name == "TestingCube" 
+                && cubeGameObject.transform.position == new Vector3(x, y, z))
             {
-                Destroy(gameObject, 5);
+                Destroy(cubeGameObject, 5);
             }
-
         }
 
     }
 
     private void DestroyAllCubes()
     {
-        var gameObjects = FindObjectsOfType(typeof(GameObject)) as GameObject[];
-
-        foreach (var gameObject in gameObjects)
+        if (FindObjectsOfType(typeof(GameObject)) is not GameObject[] gameObjects || gameObjects.Length == 0)
         {
+            return;
+        }
 
-            if (gameObject.name == "TestingCube")
+        foreach (var cubeGameObject in gameObjects)
+        {
+            if (cubeGameObject.name == "TestingCube")
             {
-                Destroy(gameObject, 10);
+                Destroy(cubeGameObject, 10);
             }
-
         }
     }
     private IEnumerator CubeAngleTest(float distance, float seconds)
