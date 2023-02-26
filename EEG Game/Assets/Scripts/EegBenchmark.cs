@@ -68,7 +68,7 @@ public class EegBenchmark : MonoBehaviour
         ClassSelectionAvailableEventArgs ea = (ClassSelectionAvailableEventArgs)e;
         _selectedClass = ea.Class;
         _update = true;
-        Debug.Log(string.Format("Selected class: {0}", ea.Class));
+        Debug.LogWarning(string.Format("Selected class: {0}", ea.Class));
     }
 
     private void FixERPList()
