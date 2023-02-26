@@ -87,7 +87,6 @@ public class NarrativeHandler : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             inputManager.SetSensitivity(0, 0);
-
         }
     }
 

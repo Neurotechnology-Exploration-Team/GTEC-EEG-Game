@@ -15,6 +15,7 @@ public class InputManager : MonoBehaviour
     public bool jump;
     public bool crouch;
     public bool interact;
+    public bool fire;
 
     [Header("Set Up")]
     public CinemachineVirtualCamera playerCamera;
@@ -79,5 +80,10 @@ public class InputManager : MonoBehaviour
             playerCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = camSensX;
             playerCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = camSensY;
         }
+    }
+
+    public void GetFire(InputAction.CallbackContext context)
+    {
+        fire = context.ReadValueAsButton();
     }
 }

@@ -2,45 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class GunBehavior : MonoBehaviour
 {
-    //Fields
-    PlayerInput input;
-    public Camera fpsCam;
+    [Header("Gun Settings")]
+    [SerializeField] private float reloadTime;
+    [SerializeField] bool reloading;
 
-    //Properties
-    public float magazine = 12f;
-    public float range = 100f;
-    public float damage = 10f;
-    private bool isAiming = false;
+    [SerializeField] GameObject projectile;
+    [SerializeField] Transform projectileSpawn;
 
     //Stat trackers
     private float shots = 0f;
-    private float hits = 0f;
-    private float reloads = 0f;
+
+    private InputManager inputManager;
+    private Coroutine reloadRoutine;
+
+    [Header("UI")]
+    public Image crossHair;
 
     public void Awake()
     {
-        input = new PlayerInput();
-
-        input.Player.Fire.performed += ctx => Fire();
-        input.Player.Aim.performed += ctx => Aim();
-        input.Player.Reload.performed += ctx => Reload();
+        inputManager = InputManager.Instance;
     }
 
-    /// <summary>
-    /// These are necessary for the function
-    /// of the input system
-    /// </summary>
-    public void OnEnable()
+    private void Update()
     {
-        input.Player.Enable();
-    }
-
-    public void OnDisable()
-    {
-        input.Player.Disable();
+        if (inputManager.fire)
+        {
+            Fire();
+        }
     }
 
     /// <summary>
@@ -52,41 +45,31 @@ public class GunBehavior : MonoBehaviour
     /// </summary>
     public void Fire()
     {
-        if (magazine > 0)
+        if (!reloading)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
-            {
-                hits++;
-                Debug.Log(hit.transform.name);
-            }
-
+            GameObject bullet = Instantiate(projectile, projectileSpawn.position, projectileSpawn.transform.rotation);
             shots++;
-            Debug.Log("Shots fired!");
-        }
 
-        else
-        {
-            Debug.Log("Out of ammo!");
+            reloading = true;
+            reloadRoutine = StartCoroutine(Reload());
+
+            // Effects
+            Camera.main.transform.DOComplete();
+            Camera.main.transform.DOShakePosition(.2f, .01f, 10, 90, false, true).SetUpdate(true);
+            transform.DOLocalMoveZ(-.1f, .05f).OnComplete(() => transform.DOLocalMoveZ(0.020f, .2f));
         }
     }
 
-    /// <summary>
-    /// Moves the gun by snapping in new transfoorm values into a position 
-    /// in which the camera is aiming down the sightes on top. 
-    /// </summary>
-    public void Aim()
+    IEnumerator Reload()
     {
-        Debug.Log("Aiming down sights.");
+        ReloadUI(reloadTime);
+        yield return new WaitForSeconds(reloadTime);
+        reloading = false;
+        StopCoroutine(reloadRoutine);
     }
 
-    /// <summary>
-    /// Resets the magazine to a value of 12 and increases the number of reloads.
-    /// </summary>
-    public void Reload()
+    public void ReloadUI(float time)
     {
-        magazine = 12f;
-        reloads++;
-        Debug.Log("Swapping a mag.");
+        crossHair.transform.DORotate(new Vector3(0, 0, 90), time, RotateMode.LocalAxisAdd).SetEase(Ease.Linear).OnComplete(() => crossHair.transform.DOPunchScale(Vector3.one / 3, .2f, 10, 1).SetUpdate(true));
     }
 }
