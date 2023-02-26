@@ -40,20 +40,9 @@ public class EegBenchmark : MonoBehaviour
         }
         mMainCameraTransform = mMainCamera.transform;
         
+        // setup for training
         TeleportPlayer(0, 0, -20, 0, 0, 0);
         CreateCube(0, 0, 0, 10);
-        // bciManager3D.TrainingObject = bciManager3D.ApplicationObjects[0];
-
-        // BCIManager.Instance.ClassSelectionAvailable += OnClassSelectionAvailable;
-
-        // StartCoroutine(AngleTest(-5.125f, 5));
-        /*createCube(0, 0, 0, 10);
-        createCube(0, 0, 1, 5);
-        createCube(0, 0, 0, 1);
-        createCube(0, 0, 10, 5);
-        destroyCube(0, 0, 0);
-        destroyAllCubes();*/
-        // StartCoroutine(DistanceTest(3000));
     }
 
     // Update is called once per frame
@@ -198,7 +187,7 @@ public class EegBenchmark : MonoBehaviour
                 }
 
                 yield return new WaitForSeconds(0.1f);
-                Debug.Log(angle + ", " + (currentTimeSeconds - timeOfTeleportMili) + ", " + 1);
+                Debug.Log(angle + "," + (currentTimeSeconds - timeOfTeleportMili) + "," + _selectedClass);
             }
         }
 
@@ -223,7 +212,7 @@ public class EegBenchmark : MonoBehaviour
             TeleportPlayer(dist*=2, 0, 0, 0, 270, 0);
             while (true)
             {
-                Debug.LogFormat("{0}, {1}", dist, certainty);
+                Debug.LogFormat("{0},{1}", dist, _selectedClass);
                 var now = DateTime.UtcNow;
                 var unixTimeMilliseconds = new DateTimeOffset(now).ToUnixTimeMilliseconds();
                 yield return new WaitForSeconds(.1f);
