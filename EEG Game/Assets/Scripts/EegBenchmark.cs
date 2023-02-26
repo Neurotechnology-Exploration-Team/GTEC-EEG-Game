@@ -13,7 +13,7 @@ public class EegBenchmark : MonoBehaviour
     public Material darkMaterial;
     public Material flashMaterial;
 
-    private List<GameObject> cubes = new();
+    public List<GameObject> cubes;
 
     public ERPFlashController3D bciManager3D;
 
@@ -116,7 +116,7 @@ public class EegBenchmark : MonoBehaviour
             GameObject = aCube,
             FlashMaterial = flashMaterial,
             DarkMaterial = darkMaterial,
-            ClassId = 1
+            ClassId = 2
         };
 
         cubes.Add(aCube);
