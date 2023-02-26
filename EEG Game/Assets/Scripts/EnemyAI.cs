@@ -5,13 +5,13 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    public int health;
+
     [SerializeField] private NavMeshAgent agent;
 
     [SerializeField] private Transform player;
 
     [SerializeField] private LayerMask whatIsGround, whatIsPlayer;
-
-    [SerializeField] private int health;
 
     // Patroling Data
     [SerializeField] private Vector3 walkPoint;

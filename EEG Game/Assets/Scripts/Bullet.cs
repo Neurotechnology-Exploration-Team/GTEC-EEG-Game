@@ -5,6 +5,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed;
+    public int damage;
+    public float bulletLife;
     Rigidbody rb;
 
     // Start is called before the first frame update
@@ -17,14 +19,26 @@ public class Bullet : MonoBehaviour
     void Update()
     {
         transform.position += transform.forward * speed * Time.deltaTime;
+        bulletLife -= Time.deltaTime;
+
+        if (bulletLife <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && !this.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject == transform.gameObject)
         {
-            collision.gameObject.GetComponent<EnemyAI>().TakeDamage(1);
+            return;
         }
+
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<EnemyAI>().TakeDamage(damage);
+        }
+
         Destroy(gameObject);
     }
 }
