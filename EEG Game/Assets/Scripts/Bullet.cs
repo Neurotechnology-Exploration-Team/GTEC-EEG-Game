@@ -39,6 +39,11 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponent<EnemyAI>().TakeDamage(damage);
         }
 
+        if (collision.gameObject.CompareTag("Player") && this.gameObject.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(damage);
+        }
+
         Destroy(gameObject);
     }
 }
