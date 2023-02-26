@@ -156,7 +156,9 @@ MonoBehaviour:
   flashMaterial: {fileID: 2100000, guid: 3bf3953cf299f974887694f5245b1e0a, type: 2}
   cubes: []
   bciManager3D: {fileID: 1075910004}
-  testToRun: 0
+  multiTestCount: 14
+  _selectedClass: 0
+  testToRun: 2
   runTest: 0
 --- !u!4 &460332941
 Transform:
@@ -425,6 +427,10 @@ PrefabInstance:
     - target: {fileID: 3085649223867200672, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420512416770977473, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
+      propertyPath: NumberOfClasses
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8379508971946879991, guid: 1ba981cfe48fad74ebddd10d9d20bd87, type: 3}
       propertyPath: m_Name
