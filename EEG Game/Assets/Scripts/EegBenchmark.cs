@@ -40,8 +40,8 @@ public class EegBenchmark : MonoBehaviour
         }
         mMainCameraTransform = mMainCamera.transform;
         
-        // TeleportPlayer(0, 0, -20, 0, 0, 0);
-        // CreateCube(0, 0, 0, 10);
+        TeleportPlayer(0, 0, -20, 0, 0, 0);
+        CreateCube(0, 0, 0, 10);
         // bciManager3D.TrainingObject = bciManager3D.ApplicationObjects[0];
 
         // BCIManager.Instance.ClassSelectionAvailable += OnClassSelectionAvailable;
@@ -61,6 +61,7 @@ public class EegBenchmark : MonoBehaviour
     {
         if (runTest)
         {
+            runTest = false;
             switch (testToRun)
             {
                 case TestType.Angle:
@@ -70,7 +71,6 @@ public class EegBenchmark : MonoBehaviour
                     StartCoroutine(DistanceTest(500, 3000));
                     break;
             }
-            runTest = false;
         }
     }
 
@@ -90,6 +90,11 @@ public class EegBenchmark : MonoBehaviour
             var erpFlashObject3D = bciManager3D.ApplicationObjects[i];
             erpFlashObject3D.ClassId = i + 1;
             bciManager3D.ApplicationObjects[i] = erpFlashObject3D;
+        }
+        if (bciManager3D.ApplicationObjects.Count > 0)
+        {
+            bciManager3D.TrainingObject = bciManager3D.ApplicationObjects[0];
+            // bciManager3D.Initialize();
         }
     }
 
@@ -111,7 +116,7 @@ public class EegBenchmark : MonoBehaviour
         aCube.transform.localScale = new Vector3(l, l, l);
         aCube.name = "TestingCube";
 
-        var erpFlashObject3D = new ERPFlashObject3D
+        var erpFlashObject3D = new ERPFlashObject3D()
         {
             GameObject = aCube,
             FlashMaterial = flashMaterial,
@@ -120,6 +125,7 @@ public class EegBenchmark : MonoBehaviour
         };
 
         cubes.Add(aCube);
+        // bciManager3D.Uninitialize();
         bciManager3D.ApplicationObjects.Add(erpFlashObject3D);
         FixERPList();
 
@@ -143,6 +149,7 @@ public class EegBenchmark : MonoBehaviour
         {
             Destroy(cubes[cube], 5);
             cubes.RemoveAt(cube);
+            // bciManager3D.Uninitialize();
             bciManager3D.ApplicationObjects.RemoveAt(cube);
         }
 
@@ -156,17 +163,18 @@ public class EegBenchmark : MonoBehaviour
             Destroy(cubeGameObject, 10);
         }
 
+        // bciManager3D.Uninitialize();
         bciManager3D.ApplicationObjects.Clear();
         FixERPList();
     }
     
     private IEnumerator AngleTest(float distance, float seconds)
     {
-        // DestroyAllCubes();
+        DestroyAllCubes();
         
         var angle = 0;
 
-        // CreateCube(0, 0, 0, 1);
+        CreateCube(0, 0, 0, 1);
         while (true)
         {
             if (angle > 90) break;
@@ -194,16 +202,17 @@ public class EegBenchmark : MonoBehaviour
             }
         }
 
+        DestroyAllCubes();
         yield return new WaitForSeconds(0.1f);
     }
 
     private IEnumerator DistanceTest(int maxDistance, float timeChange)
     {
-        // DestroyAllCubes();
+        DestroyAllCubes();
         
         var rng = new System.Random();
 
-        // CreateCube(0, 0, 0, 1);
+        CreateCube(0, 0, 0, 1);
         var dist = 1;
         TeleportPlayer(dist, 0, 0, 0, 270, 0);
         var certainty = rng.Next(10);
@@ -224,6 +233,8 @@ public class EegBenchmark : MonoBehaviour
                 }
             }
         }
+
+        DestroyAllCubes();
     }
 }
 
