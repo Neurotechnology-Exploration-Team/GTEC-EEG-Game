@@ -8,9 +8,9 @@ public class GunBehavior : MonoBehaviour
     //Fields
     PlayerInput input;
     public Camera fpsCam;
+    private bool isTimeSlow;
 
     //Properties
-    public float magazine = 12f;
     public float range = 100f;
     public float damage = 10f;
     private bool isAiming = false;
@@ -23,10 +23,11 @@ public class GunBehavior : MonoBehaviour
     public void Awake()
     {
         input = new PlayerInput();
+        isTimeSlow = false;
 
         input.Player.Fire.performed += ctx => Fire();
         input.Player.Aim.performed += ctx => Aim();
-        input.Player.Reload.performed += ctx => Reload();
+        input.Player.TimeSlow.performed += ctx => TimeSlow();
     }
 
     /// <summary>
@@ -52,23 +53,15 @@ public class GunBehavior : MonoBehaviour
     /// </summary>
     public void Fire()
     {
-        if (magazine > 0)
+        RaycastHit hit;
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
-            {
-                hits++;
-                Debug.Log(hit.transform.name);
-            }
-
-            shots++;
-            Debug.Log("Shots fired!");
+            hits++;
+            Debug.Log("Just hit a: " + hit.transform.name);
         }
 
-        else
-        {
-            Debug.Log("Out of ammo!");
-        }
+        shots++;
+        Debug.Log("Shots fired!");
     }
 
     /// <summary>
@@ -81,12 +74,22 @@ public class GunBehavior : MonoBehaviour
     }
 
     /// <summary>
-    /// Resets the magazine to a value of 12 and increases the number of reloads.
+    /// Slows or speeds up the time on activation
     /// </summary>
-    public void Reload()
+    public void TimeSlow()
     {
-        magazine = 12f;
-        reloads++;
-        Debug.Log("Swapping a mag.");
+        //Slow down time
+        if (!isTimeSlow)
+        {
+            Time.timeScale = 0.3f;
+            isTimeSlow = true;
+        }
+
+        //Speed back up
+        else
+        {
+            Time.timeScale = 1.0f;
+            isTimeSlow = false;
+        }
     }
 }
