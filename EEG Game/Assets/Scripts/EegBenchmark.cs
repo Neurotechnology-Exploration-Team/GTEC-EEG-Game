@@ -3,6 +3,8 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
+using static BCIManager;
+
 public class EegBenchmark : MonoBehaviour
 {
     private Camera mMainCamera;
@@ -11,10 +13,25 @@ public class EegBenchmark : MonoBehaviour
     public Material darkMaterial;
     public Material flashMaterial;
 
-    private List<GameObject> cubes;
+    public List<GameObject> cubes;
 
     public ERPFlashController3D bciManager3D;
-    
+
+    public int multiTestCount = 10;
+
+    public uint _selectedClass = 0;
+    private bool _update = false;
+
+    public enum TestType
+    {
+        Angle,
+        Distance,
+        Multi
+    }
+
+    public TestType testToRun;
+    public bool runTest = false;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -26,22 +43,55 @@ public class EegBenchmark : MonoBehaviour
         }
         mMainCameraTransform = mMainCamera.transform;
         
-        // StartCoroutine(AngleTest(-5.125f, 5));
-        /*createCube(0, 0, 0, 10);
-        createCube(0, 0, 1, 5);
-        createCube(0, 0, 0, 1);
-        createCube(0, 0, 10, 5);
-        destroyCube(0, 0, 0);
-        destroyAllCubes();*/
-        // StartCoroutine(DistanceTest(3000));
+        // setup for training
+        TeleportPlayer(0, 0, -20, 0, 0, 0);
+        CreateCube(0, 0, 0, 10);
     }
 
     // Update is called once per frame
     private void Update()
     {
-
+        if (runTest)
+        {
+            runTest = false;
+            switch (testToRun)
+            {
+                case TestType.Angle:
+                    StartCoroutine(AngleTest(-5.125f, 5));
+                    break;
+                case TestType.Distance:
+                    StartCoroutine(DistanceTest(500, 3000));
+                    break;
+                case TestType.Multi:
+                    StartCoroutine(MultiCubeTest(multiTestCount));
+                    break;
+            }
+        }
     }
-    
+
+    private void OnClassSelectionAvailable(object sender, EventArgs e)
+    {
+        ClassSelectionAvailableEventArgs ea = (ClassSelectionAvailableEventArgs)e;
+        _selectedClass = ea.Class;
+        _update = true;
+        Debug.LogWarning(string.Format("Selected class: {0}", ea.Class));
+    }
+
+    private void FixERPList()
+    {
+        for (var i = 0; i < bciManager3D.ApplicationObjects.Count; i++)
+        {
+            var erpFlashObject3D = bciManager3D.ApplicationObjects[i];
+            erpFlashObject3D.ClassId = i + 1;
+            bciManager3D.ApplicationObjects[i] = erpFlashObject3D;
+        }
+        if (bciManager3D.ApplicationObjects.Count > 0)
+        {
+            bciManager3D.TrainingObject = bciManager3D.ApplicationObjects[0];
+            // bciManager3D.Initialize();
+        }
+    }
+
     /**
      * Teleports the player to given coordinates.
      *
@@ -53,24 +103,28 @@ public class EegBenchmark : MonoBehaviour
         mMainCameraTransform.eulerAngles = new Vector3(ax, ay, az);
     }
 
-    private void CreateCube(float x, float y, float z, float l)
+    private GameObject CreateCube(float x, float y, float z, float l, PrimitiveType type=PrimitiveType.Cube, float xa = 0, float ya = 0, float za = 0)
     {
-        var aCube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        var aCube = GameObject.CreatePrimitive(type);
         aCube.transform.position = new Vector3(x, y, z);
+        aCube.transform.eulerAngles = new Vector3(xa, ya, za);
         aCube.transform.localScale = new Vector3(l, l, l);
         aCube.name = "TestingCube";
 
-        var erpFlashObject3D = new ERPFlashObject3D
+        var erpFlashObject3D = new ERPFlashObject3D()
         {
             GameObject = aCube,
             FlashMaterial = flashMaterial,
             DarkMaterial = darkMaterial,
-            ClassId = bciManager3D.ApplicationObjects[^1].ClassId + 1
+            ClassId = 2
         };
 
         cubes.Add(aCube);
+        // bciManager3D.Uninitialize();
         bciManager3D.ApplicationObjects.Add(erpFlashObject3D);
-        bciManager3D.NumberOfClasses++;
+        FixERPList();
+
+        return aCube;
     }
 
     private void DestroyCube(float x, float y, float z)
@@ -90,16 +144,11 @@ public class EegBenchmark : MonoBehaviour
         {
             Destroy(cubes[cube], 5);
             cubes.RemoveAt(cube);
+            // bciManager3D.Uninitialize();
             bciManager3D.ApplicationObjects.RemoveAt(cube);
         }
 
-        bciManager3D.NumberOfClasses = (uint) bciManager3D.ApplicationObjects.Count;
-        for (var i = 0; i < bciManager3D.NumberOfClasses; i++)
-        {
-            var erpFlashObject3D = bciManager3D.ApplicationObjects[i];
-            erpFlashObject3D.ClassId = i;
-            bciManager3D.ApplicationObjects[i] = erpFlashObject3D;
-        }
+        FixERPList();
     }
 
     private void DestroyAllCubes()
@@ -109,8 +158,9 @@ public class EegBenchmark : MonoBehaviour
             Destroy(cubeGameObject, 10);
         }
 
-        bciManager3D.ApplicationObjects.RemoveRange(0, bciManager3D.ApplicationObjects.Count);
-        bciManager3D.NumberOfClasses = 0;
+        // bciManager3D.Uninitialize();
+        bciManager3D.ApplicationObjects.Clear();
+        FixERPList();
     }
     
     private IEnumerator AngleTest(float distance, float seconds)
@@ -119,7 +169,7 @@ public class EegBenchmark : MonoBehaviour
         
         var angle = 0;
 
-        CreateCube(0, 0, 0, 1);
+        CreateCube(0, 0, 0, 0.1f, PrimitiveType.Plane, 0, 0, 90);
         while (true)
         {
             if (angle > 90) break;
@@ -143,10 +193,11 @@ public class EegBenchmark : MonoBehaviour
                 }
 
                 yield return new WaitForSeconds(0.1f);
-                Debug.Log(angle + ", " + (currentTimeSeconds - timeOfTeleportMili) + ", " + 1);
+                Debug.Log(angle + "," + (currentTimeSeconds - timeOfTeleportMili) + "," + _selectedClass);
             }
         }
 
+        DestroyAllCubes();
         yield return new WaitForSeconds(0.1f);
     }
 
@@ -167,7 +218,7 @@ public class EegBenchmark : MonoBehaviour
             TeleportPlayer(dist*=2, 0, 0, 0, 270, 0);
             while (true)
             {
-                Debug.LogFormat("{0}, {1}", dist, certainty);
+                Debug.LogFormat("{0},{1}", dist, _selectedClass);
                 var now = DateTime.UtcNow;
                 var unixTimeMilliseconds = new DateTimeOffset(now).ToUnixTimeMilliseconds();
                 yield return new WaitForSeconds(.1f);
@@ -176,6 +227,30 @@ public class EegBenchmark : MonoBehaviour
                     break;
                 }
             }
+        }
+
+        DestroyAllCubes();
+    }
+
+    private IEnumerator MultiCubeTest(int numCubes)
+    {
+        DestroyAllCubes();
+
+        TeleportPlayer(0, 0, -30, 0, 0, 0);
+        var cubesPerRow = 8;
+
+        for (var a = 0; a < numCubes / (double) cubesPerRow; a++)
+        {
+            for (var b = 0; a* cubesPerRow + b < numCubes && b < cubesPerRow; b++)
+            {
+                CreateCube(-cubesPerRow + b * 2, -cubesPerRow*2 + a * 2, 0, 1);
+            }
+        }
+
+        while (true)
+        {
+            Debug.LogFormat("{0},{1}", numCubes, _selectedClass);
+            yield return new WaitForSeconds(.1f);
         }
     }
 }
