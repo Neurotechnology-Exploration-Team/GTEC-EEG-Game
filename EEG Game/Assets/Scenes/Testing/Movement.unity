@@ -1622,6 +1622,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: d8ef5e4a-f0ba-483b-b810-69699c27bcac
     m_ActionName: Player/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3bf3c1e9-ebda-43c8-a66b-71df5162cb59
+    m_ActionName: Player/TimeSlow[/Keyboard/q]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
