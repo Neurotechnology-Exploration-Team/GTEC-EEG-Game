@@ -8,7 +8,6 @@ public class GunBehavior : MonoBehaviour
     //Fields
     PlayerInput input;
     public Camera fpsCam;
-    private bool isTimeSlow;
 
     //Properties
     public float range = 100f;
@@ -23,11 +22,9 @@ public class GunBehavior : MonoBehaviour
     public void Awake()
     {
         input = new PlayerInput();
-        isTimeSlow = false;
 
         input.Player.Fire.performed += ctx => Fire();
         input.Player.Aim.performed += ctx => Aim();
-        input.Player.TimeSlow.performed += ctx => TimeSlow();
     }
 
     /// <summary>
@@ -71,25 +68,5 @@ public class GunBehavior : MonoBehaviour
     public void Aim()
     {
         Debug.Log("Aiming down sights.");
-    }
-
-    /// <summary>
-    /// Slows or speeds up the time on activation
-    /// </summary>
-    public void TimeSlow()
-    {
-        //Slow down time
-        if (!isTimeSlow)
-        {
-            Time.timeScale = 0.3f;
-            isTimeSlow = true;
-        }
-
-        //Speed back up
-        else
-        {
-            Time.timeScale = 1.0f;
-            isTimeSlow = false;
-        }
     }
 }
