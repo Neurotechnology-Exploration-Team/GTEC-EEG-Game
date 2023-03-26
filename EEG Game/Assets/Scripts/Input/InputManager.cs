@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(-1)]
 public class InputManager : MonoBehaviour
 {
     [Header("Input Settings")]
