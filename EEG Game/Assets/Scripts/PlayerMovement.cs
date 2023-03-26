@@ -7,9 +7,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [Range(0f, 20.0f)]
+    [Range(0f, 11420.0f)]
     [SerializeField] private float playerSpeed = 10.0f;
-    [Range(0f, 10.0f)]
+    [Range(0f, 1000.0f)]
     [SerializeField] private float jumpHeight = 1.0f;
     [SerializeField] private float groundCheckRadius = 1.0f;
     [SerializeField] private float gravityValue = -9.81f;
@@ -36,37 +36,33 @@ public class PlayerMovement : MonoBehaviour
         playerScale = transform.localScale;
 
         // Components
-        controller = gameObject.GetComponent<CharacterController>();
+        controller = gameObject.GetComponent<CharacterController>(); //The actual player controller
         cameraTransform = Camera.main.transform;
 
         // Singletons
         inputManager = InputManager.Instance;
 
-        toggleMovement = true;
+        toggleMovement = true; //Activate movement
     }
 
     private void Update()
     {
+        //If movement is diabled do nothing
         if (!toggleMovement)
         {
             return;
         }
 
+        //If the player is crouching then change the scale to match
         if (inputManager.crouch)
         {
             transform.localScale = crouchScale;
         }
+
+        //Reset the scale if not crouched
         else if(!inputManager.crouch)
         {
             transform.localScale = playerScale;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (!toggleMovement)
-        {
-            return;
         }
 
         // Ground Check

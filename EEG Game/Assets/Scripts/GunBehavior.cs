@@ -10,7 +10,6 @@ public class GunBehavior : MonoBehaviour
     [Header("Gun Settings")]
     [SerializeField] private float reloadTime;
     [SerializeField] bool reloading;
-
     [SerializeField] GameObject projectile;
     [SerializeField] Transform projectileSpawn;
 
