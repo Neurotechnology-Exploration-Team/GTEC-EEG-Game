@@ -97,7 +97,7 @@ public class EnemyAI : MonoBehaviour
     {
         // Stop Enemy movement and Look at Player
         agent.SetDestination(transform.position);
-        //transform.LookAt(player);
+        transform.LookAt(player);
 
         if (!alreadyAttacked)
         {

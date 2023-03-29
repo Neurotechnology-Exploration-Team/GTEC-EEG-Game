@@ -8,6 +8,7 @@ using DG.Tweening;
 public class GunBehavior : MonoBehaviour
 {
     [Header("Gun Settings")]
+    [Range(0f, 2.0f)]
     [SerializeField] private float reloadTime;
     [SerializeField] bool reloading;
     [SerializeField] GameObject projectile;
