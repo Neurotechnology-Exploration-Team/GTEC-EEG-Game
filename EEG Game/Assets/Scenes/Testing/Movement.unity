@@ -486,7 +486,7 @@ AudioSource:
   m_GameObject: {fileID: 199286358}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 8889ef35d08479949b614017735faff3, type: 2}
   m_audioClip: {fileID: 8300000, guid: bda3f4972f847c04cbf8819da3a2d771, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -878,6 +878,7 @@ MonoBehaviour:
   jump: 0
   crouch: 0
   interact: 0
+  fire: 0
   playerCamera: {fileID: 62035607}
 --- !u!4 &589018277
 Transform:
@@ -1128,9 +1129,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fc61b2b554dc2046ba27c2d9b542433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fpsCam: {fileID: 2144658341}
-  range: 100
-  damage: 10
+  reloadTime: 0
+  reloading: 0
+  projectile: {fileID: 0}
+  projectileSpawn: {fileID: 0}
+  crossHair: {fileID: 0}
 --- !u!114 &924417840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1463,7 +1466,7 @@ AudioSource:
   m_GameObject: {fileID: 1479734396}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 8889ef35d08479949b614017735faff3, type: 2}
   m_audioClip: {fileID: 8300000, guid: 8eeb2b239ff226e4da9135658f714823, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
