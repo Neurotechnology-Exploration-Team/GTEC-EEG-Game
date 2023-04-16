@@ -1,23 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class TimeSlow : MonoBehaviour
 {
     //Fields
     PlayerInput input;
-
-    private bool isTimeSlow = false;
-    public AudioSource timeSlow = new AudioSource();
-    public AudioSource revTimeSlow = new AudioSource();
-
+    public float charge = 6f;
+    public float cooldown = 6f;
+    public float timeDial = 0.3f;
 
     public void Awake()
     {
+        charge *= timeDial;
+
         input = new PlayerInput();
-
-        input.Player.TimeSlow.performed += ctx => TimeSlowDown();
-
+        input.Player.TimeSlow.performed += ctx => TimeFlux();
     }
 
     /// <summary>
@@ -33,25 +33,45 @@ public class TimeSlow : MonoBehaviour
     {
         input.Player.Disable();
     }
+
+    public void Update()
+    {
+        //Reduce charge until zero
+        if (Time.timeScale == timeDial && charge > 0)
+        {
+            charge = charge - Time.deltaTime;
+        }
+        //When 
+        else if (charge <= 0)
+        {
+            Time.timeScale = 1.0f;
+            cooldown = cooldown - Time.deltaTime;
+        }
+
+        if (charge <= 0 && Time.timeScale == timeDial)
+        {
+            AudioManager.instance.Play("RevTimeSlow");
+        }
+
+        //Wait until cooldown runs out and then reset charge and cooldown
+        if (cooldown <= 0)
+        {
+            charge = 6f * timeDial;
+            cooldown = 6f;
+        }
+    }
+
     /// <summary>
     /// Slows or speeds up the time on activation
     /// </summary>
-    public void TimeSlowDown()
+    public void TimeFlux()
     {
-        //Slow down time
-        if (!isTimeSlow)
+        //Time = nomral
+        //Charge > 0
+        if (Time.timeScale == 1.0f && charge > 0)
         {
-            timeSlow.Play();
-            Time.timeScale = 0.3f;
-            isTimeSlow = true;
-        }
-
-        //Speed back up
-        else
-        {
-            revTimeSlow.Play();
-            Time.timeScale = 1.0f;
-            isTimeSlow = false;
+            AudioManager.instance.Play("TimeSlow");
+            Time.timeScale = timeDial;
         }
     }
 }
