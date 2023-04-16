@@ -42,10 +42,12 @@ public class EegBenchmark : MonoBehaviour
             return;
         }
         mMainCameraTransform = mMainCamera.transform;
-        
+
+        BCIManager.Instance.ClassSelectionAvailable += OnClassSelectionAvailable;
+
         // setup for training
         TeleportPlayer(0, 0, -20, 0, 0, 0);
-        CreateCube(0, 0, 0, 10);
+        // CreateCube(0, 0, 0, 10);
     }
 
     // Update is called once per frame
@@ -205,12 +207,12 @@ public class EegBenchmark : MonoBehaviour
     {
         DestroyAllCubes();
         
-        var rng = new System.Random();
+        // var rng = new System.Random();
 
-        CreateCube(0, 0, 0, 1);
+        // CreateCube(0, 0, 0, 1);
         var dist = 1;
         TeleportPlayer(dist, 0, 0, 0, 270, 0);
-        var certainty = rng.Next(10);
+        // var certainty = rng.Next(10);
         while (dist < maxDistance)
         {
             var start = DateTime.UtcNow;
@@ -249,7 +251,7 @@ public class EegBenchmark : MonoBehaviour
 
         while (true)
         {
-            Debug.LogFormat("{0},{1}", numCubes, _selectedClass);
+            // Debug.LogFormat("{0},{1}", numCubes, _selectedClass);
             yield return new WaitForSeconds(.1f);
         }
     }
